@@ -1,0 +1,78 @@
+from keras import models
+from keras import layers
+model = models.Sequential()
+model.add( layers.Conv2D(10, 4, input_shape=(28,28,1), activation='relu') )
+model.summary()
+model.add( layers.Flatten() )
+model.add( layers.Dense(100, activation='relu') )
+model.add( layers.Dense(10, activation='softmax') )
+model.summary()
+from keras.optimizers import RMSprop
+model.compile(loss='categorical_crossentropy',
+              optimizer=RMSprop(lr=0.001),
+              metrics=['acc'])
+kx_train = x_train.reshape(len(x_train),28,28,1)
+kx_test = x_test.reshape(len(x_test),28,28,1)
+kx_test.shape
+
+history = model.fit(kx_train, y_train, validation_data=(kx_test,y_test),batch_size=50, epochs=10)
+def plot_accuracy(history, miny=None):
+  acc = history.history['acc']
+  test_acc = history.history['val_acc']
+  epochs = range(len(acc))
+  plt.plot(epochs, acc)
+  plt.plot(epochs, test_acc)
+  if miny:
+    plt.ylim(miny, 1.0)
+  plt.title('accuracy') 
+  plt.figure()
+plot_accuracy(history, miny=0.95)
+model_do = models.Sequential()
+model_do.add( layers.Conv2D(10, 4, input_shape=(28,28,1), activation='relu') )
+model_do.add( layers.Flatten() )
+model_do.add( layers.Dropout(rate=0.5) )
+model_do.add( layers.Dense(100, activation='relu') )
+model_do.add( layers.Dense(10, activation='softmax') )
+model_do.summary()
+
+model_do.compile(loss='categorical_crossentropy',
+              optimizer=RMSprop(lr=0.001),
+              metrics=['acc'])
+
+history_do = model_do.fit(kx_train, y_train, validation_data=(kx_test,y_test),
+                    batch_size=50, epochs=10)
+                    
+plot_accuracy(history_do, miny=0.95)
+
+
+model_do_200 = models.Sequential()
+model_do_200.add( layers.Conv2D(10, 4, input_shape=(28,28,1), activation='relu') )
+model_do_200.add( layers.Flatten() )
+model_do_200.add( layers.Dropout(rate=0.5) )
+model_do_200.add( layers.Dense(200, activation='relu') )
+model_do_200.add( layers.Dense(10, activation='softmax') )
+model_do_200.summary()
+
+model_do_200.compile(loss='categorical_crossentropy',
+              optimizer=RMSprop(lr=0.001),
+              metrics=['acc'])
+
+history_do_200 = model_do_200.fit(kx_train, y_train, validation_data=(kx_test,y_test),
+                    batch_size=50, epochs=10)
+                    
+plot_accuracy(history_do_200, miny=0.95)
+model_do_50 = models.Sequential()
+model_do_50.add( layers.Conv2D(10, 4, input_shape=(28,28,1), activation='relu') )
+model_do_50.add( layers.Flatten() )
+model_do_50.add( layers.Dropout(rate=0.5) )
+model_do_50.add( layers.Dense(50, activation='relu') )
+model_do_50.add( layers.Dense(10, activation='softmax') )
+model_do_50.summary()
+
+model_do_50.compile(loss='categorical_crossentropy',
+              optimizer=RMSprop(lr=0.001),
+              metrics=['acc'])
+
+history_do_50 = model_do_50.fit(kx_train, y_train, validation_data=(kx_test,y_test),
+                    batch_size=50, epochs=10)
+plot_accuracy(history_do_50, miny=0.95)                    
